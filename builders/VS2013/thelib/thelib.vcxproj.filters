@@ -614,6 +614,9 @@
     <ClCompile Include="..\..\..\sources\thelib\src\protocols\rtmp\monitorrtmpprotocol.cpp">
       <Filter>Source Files\protocols\rtmp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\sources\thelib\src\protocols\rtp\nattraversalprotocol.cpp">
+      <Filter>Source Files\protocols\rtp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\sources\thelib\include\application\baseappprotocolhandler.h">
@@ -1107,6 +1110,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\sources\thelib\include\protocols\rtmp\monitorrtmpprotocol.h">
       <Filter>Header Files\protocols\rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\sources\thelib\include\protocols\rtp\nattraversalprotocol.h">
+      <Filter>Header Files\protocols\rtp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
