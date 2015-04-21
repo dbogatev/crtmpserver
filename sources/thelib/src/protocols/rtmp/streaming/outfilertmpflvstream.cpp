@@ -20,6 +20,8 @@
 
 #ifdef HAS_PROTOCOL_RTMP
 #include "protocols/rtmp/streaming/outfilertmpflvstream.h"
+#include "protocols/rtmp/streaming/innetrtmpstream.h"
+#include "protocols/rtmp/amf0serializer.h"
 #include "streaming/streamstypes.h"
 #include "protocols/baseprotocol.h"
 
@@ -53,11 +55,68 @@ bool OutFileRTMPFLVStream::SignalStop() {
 	NYIR;
 }
 
+bool OutFileRTMPFLVStream::FeedMetaData(){
+
+	if (!_file.WriteUI8(18)) {
+		FATAL("Unable to write marker");
+		return false;
+	}
+	uint64_t size_pos = _file.Cursor();
+	if (!_file.WriteUI24(0)) {
+		FATAL("Unable to write data size");
+		return false;
+	}
+
+	if (!_file.WriteSUI32(0)) {
+		FATAL("Unable to timestamp");
+		return false;
+	}
+
+	if (!_file.WriteUI24(0)) {
+		FATAL("Unable to write streamId");
+		return false;
+	}
+
+	Variant metaData = ((InNetRTMPStream *)GetInStream())->GetMetaData();
+	AMF0Serializer amf0;
+	IOBuffer buffer;
+	buffer.Initialize(1024);
+	string str = "onMetadata";
+	amf0.WriteShortString(buffer, str);
+	amf0.WriteMixedArray(buffer, metaData);
+	if (!_file.WriteBuffer(buffer._pBuffer, buffer._published)) {
+		FATAL("Unable to write metadata");
+		return false;
+	}
+
+	uint64_t cur = _file.Cursor();
+	_file.SeekTo(size_pos);
+	if (!_file.WriteUI24(buffer._published)) {
+		FATAL("Unable to write data size");
+		return false;
+	}
+	_file.SeekTo(cur);
+
+	_prevTagSize = buffer._published + 11;
+	if (!_file.WriteUI32(_prevTagSize)) {
+		FATAL("Unable to write prev tag size");
+		return false;
+	}
+	return true;
+}
+
 bool OutFileRTMPFLVStream::FeedData(uint8_t *pData, uint32_t dataLength,
 		uint32_t processedLength, uint32_t totalLength,
 		double absoluteTimestamp, bool isAudio) {
 	if (_timeBase < 0)
+	{
+		FeedMetaData();
 		_timeBase = absoluteTimestamp;
+	}
+	if (_timeBase <= 0)
+	{
+		_timeBase = absoluteTimestamp;
+	}
 
 	IOBuffer &buffer = isAudio ? _audioBuffer : _videoBuffer;
 
@@ -73,11 +132,6 @@ bool OutFileRTMPFLVStream::FeedData(uint8_t *pData, uint32_t dataLength,
 
 	if (GETAVAILABLEBYTESCOUNT(buffer) < totalLength) {
 		return true;
-	}
-
-	if (!_file.WriteUI32(_prevTagSize)) {
-		FATAL("Unable to write prev tag size");
-		return false;
 	}
 
 	if (!_file.WriteUI8(isAudio ? 8 : 9)) {
@@ -107,6 +161,10 @@ bool OutFileRTMPFLVStream::FeedData(uint8_t *pData, uint32_t dataLength,
 	}
 
 	_prevTagSize = GETAVAILABLEBYTESCOUNT(buffer) + 11;
+	if (!_file.WriteUI32(_prevTagSize)) {
+		FATAL("Unable to write prev tag size");
+		return false;
+	}
 
 	buffer.IgnoreAll();
 
@@ -155,19 +213,24 @@ void OutFileRTMPFLVStream::SignalAttachedToInStream() {
 		return;
 	}
 
-	//6. Write first dummy audio
-	if (!FeedData(NULL, 0, 0, 0, 0, true)) {
-		FATAL("Unable to write dummy audio packet");
-		_pProtocol->EnqueueForDelete();
+	if (!_file.WriteUI32(0)) {
+		FATAL("Unable to write prev tag size");
 		return;
 	}
 
-	//7. Write first dummy video
-	if (!FeedData(NULL, 0, 0, 0, 0, false)) {
-		FATAL("Unable to write dummy audio packet");
-		_pProtocol->EnqueueForDelete();
-		return;
-	}
+// 	//6. Write first dummy audio
+// 	if (!FeedData(NULL, 0, 0, 0, 0, true)) {
+// 		FATAL("Unable to write dummy audio packet");
+// 		_pProtocol->EnqueueForDelete();
+// 		return;
+// 	}
+// 
+// 	//7. Write first dummy video
+// 	if (!FeedData(NULL, 0, 0, 0, 0, false)) {
+// 		FATAL("Unable to write dummy audio packet");
+// 		_pProtocol->EnqueueForDelete();
+// 		return;
+// 	}
 
 	//8. Set the timebase to unknown value
 	_timeBase = -1;

@@ -41,6 +41,7 @@ public:
 	virtual bool SignalResume();
 	virtual bool SignalSeek(double &absoluteTimestamp);
 	virtual bool SignalStop();
+	virtual bool FeedMetaData();
 	virtual bool FeedData(uint8_t *pData, uint32_t dataLength,
 			uint32_t processedLength, uint32_t totalLength,
 			double absoluteTimestamp, bool isAudio);
