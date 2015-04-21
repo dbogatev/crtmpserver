@@ -437,6 +437,12 @@ bool File::WriteBuffer(const uint8_t *pBuffer, uint64_t count) {
 		FATAL("Unable to write %"PRIu64" bytes to file", count);
 		return false;
 	}
+
+	uint64_t cur = Cursor();
+	SeekEnd();
+	_size = Cursor();
+	SeekTo(cur);
+
 	return true;
 }
 
