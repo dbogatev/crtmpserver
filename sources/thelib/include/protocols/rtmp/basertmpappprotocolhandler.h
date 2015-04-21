@@ -41,6 +41,8 @@ protected:
 	bool _validateHandshake;
 	bool _renameBadFiles;
 	string _mediaFolder;
+	bool _record;
+	string _recordType;
 	bool _externSeekGenerator;
 	bool _enableCheckBandwidth;
 	Variant _onBWCheckMessage;

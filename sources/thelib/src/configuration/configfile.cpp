@@ -451,6 +451,18 @@ bool ConfigFile::NormalizeApplication(Variant &node) {
 		defaultApp = (bool) node.GetValue(CONF_APPLICATION_DEFAULT, false);
 	node[CONF_APPLICATION_DEFAULT] = (bool)defaultApp;
 
+	bool record = true;
+	if (node.HasKeyChain(V_BOOL, false, 1, CONF_APPLICATION_RECORD))
+		record = (bool)node.GetValue(CONF_APPLICATION_RECORD, false);
+	node[CONF_APPLICATION_RECORD] = (bool)record;
+
+	string recordType = "flv";
+	if (node.HasKeyChain(V_STRING, false, 1, CONF_APPLICATION_RECORDTYPE))
+		recordType = (string)node.GetValue(CONF_APPLICATION_RECORDTYPE, false);
+	if (recordType == "")
+		recordType = "flv";
+	node[CONF_APPLICATION_RECORDTYPE] = recordType;
+
 	bool generateMetaFiles = false;
 	if (node.HasKeyChain(V_BOOL, false, 1, CONF_APPLICATION_GENERATE_META_FILES))
 		generateMetaFiles = (bool) node.GetValue(CONF_APPLICATION_GENERATE_META_FILES, false);

@@ -42,6 +42,8 @@ BaseRTMPAppProtocolHandler::BaseRTMPAppProtocolHandler(Variant &configuration)
 	_clientSideBuffer = (int32_t) configuration[CONF_APPLICATION_CLIENTSIDEBUFFER];
 	_seekGranularity = (uint32_t) ((double) configuration[CONF_APPLICATION_SEEKGRANULARITY]*1000);
 	_mediaFolder = (string) configuration[CONF_APPLICATION_MEDIAFOLDER];
+	_record = (bool)configuration[CONF_APPLICATION_RECORD];
+	_recordType = (string)configuration[CONF_APPLICATION_RECORDTYPE];
 	_renameBadFiles = (bool)configuration[CONF_APPLICATION_RENAMEBADFILES];
 	_externSeekGenerator = (bool)configuration[CONF_APPLICATION_EXTERNSEEKGENERATOR];
 	_enableCheckBandwidth = false;
@@ -737,7 +739,7 @@ bool BaseRTMPAppProtocolHandler::ProcessInvokePublish(BaseRTMPProtocol *pFrom,
 	}
 
 
-	bool recording = (M_INVOKE_PARAM(request, 2) == RM_INVOKE_PARAMS_PUBLISH_TYPERECORD);
+	bool recording = (M_INVOKE_PARAM(request, 2) == RM_INVOKE_PARAMS_PUBLISH_TYPERECORD) || _record;
 	bool appending = (M_INVOKE_PARAM(request, 2) == RM_INVOKE_PARAMS_PUBLISH_TYPEAPPEND);
 	//	FINEST("Try to publish stream %s.%s",
 	//			STR(streamName), (recording || appending) ? " Also record/append it" : "");
@@ -1863,7 +1865,7 @@ BaseOutFileStream* BaseRTMPAppProtocolHandler::CreateOutFileStream(
 	string fileName = meta[META_SERVER_MEDIA_DIR];
 	fileName += (string) meta[META_SERVER_FILE_NAME];
 	FINEST("fileName: %s", STR(fileName));
-
+	printf("record path: %s\n", fileName);
 	//2. Delete the old file
 	if (append) {
 		WARN("append not supported yet. File will be overwritten");
