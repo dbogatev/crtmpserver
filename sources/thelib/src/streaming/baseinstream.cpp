@@ -50,6 +50,11 @@ vector<BaseOutStream *> BaseInStream::GetOutStreams() {
 	return result;
 }
 
+Variant BaseInStream::GetMetaData()
+{
+	return _metaData;
+}
+
 void BaseInStream::GetStats(Variant &info, uint32_t namespaceId) {
 	BaseStream::GetStats(info, namespaceId);
 	LinkedListNode<BaseOutStream *> *pTemp = _pOutStreams;

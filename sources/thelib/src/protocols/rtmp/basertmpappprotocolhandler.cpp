@@ -1865,7 +1865,7 @@ BaseOutFileStream* BaseRTMPAppProtocolHandler::CreateOutFileStream(
 	string fileName = meta[META_SERVER_MEDIA_DIR];
 	fileName += (string) meta[META_SERVER_FILE_NAME];
 	FINEST("fileName: %s", STR(fileName));
-	printf("record path: %s\n", fileName);
+
 	//2. Delete the old file
 	if (append) {
 		WARN("append not supported yet. File will be overwritten");

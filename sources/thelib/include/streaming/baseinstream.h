@@ -35,12 +35,18 @@ private:
 protected:
 	map<uint32_t, BaseOutStream *> _linkedStreams;
 	LinkedListNode<BaseOutStream *> *_pOutStreams;
+	Variant _metaData;
 public:
 	BaseInStream(BaseProtocol *pProtocol, StreamsManager *pStreamsManager,
 			uint64_t type, string name);
 	virtual ~BaseInStream();
 
 	vector<BaseOutStream *> GetOutStreams();
+
+	/*!
+	@brief Returns metadata about the stream
+	*/
+	virtual Variant GetMetaData();
 
 	/*!
 		@brief Returns information about the stream
