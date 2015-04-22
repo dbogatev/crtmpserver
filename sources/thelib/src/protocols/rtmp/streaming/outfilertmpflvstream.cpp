@@ -179,7 +179,7 @@ bool OutFileRTMPFLVStream::FeedData(uint8_t *pData, uint32_t dataLength,
 		uint64_t temp;
 		double duration = (double)((uint32_t)absoluteTimestamp - (uint32_t)_timeBase) / 1000;
 		EHTOND(duration, temp);
-		if (!_file.WriteBuffer((uint8_t *)temp, 8)) {
+		if (!_file.WriteBuffer((uint8_t *)&temp, 8)) {
 			WARN("Unable to write duration");
 		}
 		if (!_file.SeekTo(cur_pos)){

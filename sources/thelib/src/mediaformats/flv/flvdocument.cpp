@@ -161,6 +161,10 @@ bool FLVDocument::BuildFrames() {
 				FATAL("Unable to peek byte");
 				return false;
 			}
+			if (!_mediaFile.SeekBehind(frame.length)) {
+				FATAL("Unable to SeekBehind %d", frame.length);
+			}
+
 			if (!amfSerializer.Read(metadataBuffer, tempVariant)) {
 				WARN("Unable to read metadata");
 				return true;
