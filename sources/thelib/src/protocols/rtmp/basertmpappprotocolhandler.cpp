@@ -654,7 +654,10 @@ bool BaseRTMPAppProtocolHandler::ProcessInvoke(BaseRTMPProtocol *pFrom,
 		return ProcessInvokeOnBWDone(pFrom, request);
 	} else if (functionName == RM_INVOKE_FUNCTION_CHECKBANDWIDTH) {
 		return ProcessInvokeCheckBandwidth(pFrom, request);
-	} else {
+	}else if (functionName == "_checkbw") {//do for vlc
+		return ProcessInvokeCheckBandwidth(pFrom, request);
+	}
+	else {
 		return ProcessInvokeGeneric(pFrom, request);
 	}
 }
