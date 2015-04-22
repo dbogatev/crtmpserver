@@ -169,10 +169,10 @@ bool ReadSPSVUI(BitArray &ba, Variant &v) {
 bool scaling_list(BitArray &ba, uint8_t sizeOfScalingList) {
 	uint32_t nextScale = 8;
 	uint32_t lastScale = 8;
-	uint64_t delta_scale = 0;
+	int64_t delta_scale = 0;
 	for (uint8_t j = 0; j < sizeOfScalingList; j++) {
 		if (nextScale != 0) {
-			if (!ba.ReadExpGolomb(delta_scale))
+			if (!ba.ReadSExpGolomb(delta_scale))
 				return false;
 			nextScale = (lastScale + delta_scale + 256) % 256;
 		}

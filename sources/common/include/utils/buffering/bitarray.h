@@ -134,6 +134,33 @@ public:
 		value = value - 1;
 		return true;
 	}
+
+	bool ReadSExpGolomb(int64_t &value) {
+		value = 1;
+		uint32_t zeroBitsCount = 0;
+		while (true) {
+			if (AvailableBits() == 0) {
+				return false;
+			}
+			if (ReadBits<bool>(1)) {
+				break;
+			}
+			zeroBitsCount++;
+		}
+		if (AvailableBits() < zeroBitsCount) {
+			return false;
+		}
+		for (uint32_t i = 0; i < zeroBitsCount; i++) {
+			value = ((value << 1) | (ReadBits<uint8_t >(1)));
+		}
+		value = value - 1;
+		if (value%2 == 0){
+			value = -(value / 2);
+		} else{
+			value = value / 2 + 1;
+		}
+		return true;
+	}
 };
 
 
