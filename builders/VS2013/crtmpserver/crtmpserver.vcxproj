@@ -155,10 +155,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -182,10 +182,10 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug static|Win32'">
@@ -211,10 +211,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug static|x64'">
@@ -238,10 +238,10 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -269,10 +269,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -299,10 +299,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release static|Win32'">
@@ -330,10 +330,10 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release static|x64'">
@@ -360,10 +360,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PostBuildEvent>
-      <Message>Copy the config file</Message>
-      <Command>copy ..\..\..\builders\cmake\crtmpserver\crtmpserver.lua "$(SolutionDir)$(Configuration)\crtmpserver.lua"
-
-</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
