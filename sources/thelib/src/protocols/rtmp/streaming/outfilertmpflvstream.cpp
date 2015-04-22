@@ -57,11 +57,15 @@ bool OutFileRTMPFLVStream::SignalStop() {
 
 bool OutFileRTMPFLVStream::FeedMetaData(){
 
+	uint64_t old_pos = 0;
+	uint64_t meta_size_pos = 0;
+
 	if (!_file.WriteUI8(18)) {
 		FATAL("Unable to write marker");
 		return false;
 	}
-	uint64_t size_pos = _file.Cursor();
+
+	meta_size_pos = _file.Cursor();
 	if (!_file.WriteUI24(0)) {
 		FATAL("Unable to write data size");
 		return false;
@@ -83,19 +87,26 @@ bool OutFileRTMPFLVStream::FeedMetaData(){
 	buffer.Initialize(1024);
 	string str = "onMetadata";
 	amf0.WriteShortString(buffer, str);
+	_duration_pos = _file.Cursor() + buffer._published + 5 + 11;
 	amf0.WriteMixedArray(buffer, metaData);
 	if (!_file.WriteBuffer(buffer._pBuffer, buffer._published)) {
 		FATAL("Unable to write metadata");
 		return false;
 	}
 
-	uint64_t cur = _file.Cursor();
-	_file.SeekTo(size_pos);
+	old_pos = _file.Cursor();
+	if (!_file.SeekTo(meta_size_pos)) {
+		FATAL("Unable to Seek from %lu to %lu",old_pos, meta_size_pos);
+		return false;
+	}
 	if (!_file.WriteUI24(buffer._published)) {
 		FATAL("Unable to write data size");
 		return false;
 	}
-	_file.SeekTo(cur);
+	if (!_file.SeekTo(old_pos)) {
+		FATAL("Unable to Seek from %lu to %lu", meta_size_pos, old_pos);
+		return false;
+	}
 
 	_prevTagSize = buffer._published + 11;
 	if (!_file.WriteUI32(_prevTagSize)) {
@@ -158,6 +169,22 @@ bool OutFileRTMPFLVStream::FeedData(uint8_t *pData, uint32_t dataLength,
 			GETAVAILABLEBYTESCOUNT(buffer))) {
 		FATAL("Unable to write packet data");
 		return false;
+	}
+
+	uint64_t cur_pos = _file.Cursor();
+	if (!_file.SeekTo(_duration_pos)){
+		WARN("Unable to Seek from %lu to %lu", cur_pos, _duration_pos);
+	}
+	else{
+		uint64_t temp;
+		double duration = (double)((uint32_t)absoluteTimestamp - (uint32_t)_timeBase) / 1000;
+		EHTOND(duration, temp);
+		if (!_file.WriteBuffer((uint8_t *)temp, 8)) {
+			WARN("Unable to write duration");
+		}
+		if (!_file.SeekTo(cur_pos)){
+			FATAL("Unable to Seek from %lu to %lu", _duration_pos, cur_pos);
+		}
 	}
 
 	_prevTagSize = GETAVAILABLEBYTESCOUNT(buffer) + 11;

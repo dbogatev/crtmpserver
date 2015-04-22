@@ -31,6 +31,7 @@ private:
 	IOBuffer _audioBuffer;
 	IOBuffer _videoBuffer;
 	uint32_t _prevTagSize;
+	uint64_t _duration_pos;
 public:
 	OutFileRTMPFLVStream(BaseProtocol *pProtocol, StreamsManager *pStreamsManager,
 			string name);
