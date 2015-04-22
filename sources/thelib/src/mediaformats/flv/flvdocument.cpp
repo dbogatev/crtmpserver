@@ -153,6 +153,32 @@ bool FLVDocument::BuildFrames() {
 				frame.isBinaryHeader = ((word & 0x00ff) == 0);
 			}
 		}
+		else if (frame.type == MEDIAFRAME_TYPE_DATA) {
+			AMF0Serializer amfSerializer;
+			Variant tempVariant;
+			IOBuffer metadataBuffer;
+			if (!metadataBuffer.ReadFromFs(_mediaFile, (uint32_t)frame.length)) {
+				FATAL("Unable to peek byte");
+				return false;
+			}
+			if (!amfSerializer.Read(metadataBuffer, tempVariant)) {
+				WARN("Unable to read metadata");
+				return true;
+			}
+			if (tempVariant != V_STRING) {
+				WARN("Unable to read metadata");
+				return true;
+			}
+
+			while (GETAVAILABLEBYTESCOUNT(metadataBuffer) > 0) {
+				_metadata.Reset();
+				if (!amfSerializer.Read(metadataBuffer, _metadata)) {
+					WARN("Unable to read metadata");
+					return true;
+				}
+			}
+
+		}
 		if (frame.isBinaryHeader)
 			WARN("frame: %s", STR(frame));
 
