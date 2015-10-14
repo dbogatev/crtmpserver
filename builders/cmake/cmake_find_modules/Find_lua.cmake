@@ -8,7 +8,7 @@ FIND_PATH(LUA_INCLUDE_PATH_
 		/usr/local/include/lua51
 		/sw/include
 		/opt/local/include
-		NO_DEFAULT_PATH)
+		)
 
 FIND_LIBRARY(LUA_LIBRARY_PATH_
 	NAMES
@@ -22,7 +22,7 @@ FIND_LIBRARY(LUA_LIBRARY_PATH_
 		/usr/local/lib/lua51
 		/sw/lib
 		/opt/local/lib
-		NO_DEFAULT_PATH)
+		)
 
 IF(LUA_INCLUDE_PATH_)
 	SET(LUA_FOUND 1)

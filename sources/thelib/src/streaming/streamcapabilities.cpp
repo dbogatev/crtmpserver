@@ -502,6 +502,7 @@ bool _AUDIO_AAC::Init(uint8_t *pBuffer, uint32_t length) {
 			&& (_audioObjectType != 2)
 			&& (_audioObjectType != 3)
 			&& (_audioObjectType != 4)
+			&& (_audioObjectType != 5)
 			&& (_audioObjectType != 6)
 			&& (_audioObjectType != 17)
 			&& (_audioObjectType != 19)

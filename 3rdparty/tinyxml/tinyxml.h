@@ -39,6 +39,7 @@ distribution.
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <cstddef>
 
 // Help out windows:
 #if defined( _DEBUG ) && !defined( DEBUG )

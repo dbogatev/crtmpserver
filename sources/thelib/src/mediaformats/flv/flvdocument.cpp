@@ -162,7 +162,7 @@ bool FLVDocument::BuildFrames() {
 				return false;
 			}
 			if (!_mediaFile.SeekBehind(frame.length)) {
-				FATAL("Unable to SeekBehind %d", frame.length);
+				FATAL("Unable to SeekBehind %ju", frame.length);
 			}
 
 			if (!amfSerializer.Read(metadataBuffer, tempVariant)) {
