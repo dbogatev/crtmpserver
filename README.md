@@ -5,20 +5,20 @@ Requirements:
 * SVN
 * libdl, libssl, libcrypto
 
-#Setup Requirements
+##Setup Requirements
 
-apt-get install build-essential libssl-dev cmake
+    apt-get install build-essential libssl-dev cmake
 
-#Compile and Install:
+##Compile and Install:
 
-cd crtmpserver/builders/cmake
-cmake -DCRTMPSERVER_INSTALL_PREFIX=/opt/crtmpserver
-make
-make install
+    cd crtmpserver/builders/cmake
+    cmake -DCRTMPSERVER_INSTALL_PREFIX=/opt/crtmpserver
+    make
+    make install
 
-#If you preffer to create debian package
+##If you preffer to create debian package
 
-apt-get install dh-make
-cd crtmpserver/builders/packing/debian
-bash build_package.sh
+    apt-get install dh-make
+    cd crtmpserver/builders/packing/debian
+    bash build_package.sh
 
